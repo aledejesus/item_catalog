@@ -32,7 +32,8 @@ Vagrant.configure("2") do |config|
     pip2 install -r /vagrant/requirements.txt
 
     su postgres -c 'createuser -dRS vagrant'
-    su vagrant -c 'createdb'
+    su postgres -c 'ALTER USER "vagrant" WITH PASSWORD "vagrant"'
+    su vagrant -c 'createdb catalog'
 
     vagrantTip="[35m[1mThe shared directory is located at /vagrant\\nTo access your shared files: cd /vagrant[m"
     echo -e $vagrantTip > /etc/motd
