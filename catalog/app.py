@@ -1,8 +1,15 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask('item_catalog')
+db = SQLAlchemy()
 
 
-@app.route('/')
-def test_route():
-    return 'Working'
+def create_app(config='catalog.config.ProductionConfig'):
+    # Create app
+    app = Flask(__name__)
+    app.config.from_object(config)
+
+    # Initialize extensions
+    db.init_app(app)
+
+    return app
