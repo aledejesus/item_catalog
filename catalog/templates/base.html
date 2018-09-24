@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <div id="header">
+      <h3>Header</h3>
+      {% block header %}
+      {% endblock %}
+    </div>
+    <div id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div id="footer">
+      <h3>Footer</h3>
+      {% block footer %}
+      {% endblock %}
+    </div>
+  </body>
+</html>
