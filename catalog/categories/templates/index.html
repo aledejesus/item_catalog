@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h3>Working</h3>
+  <h3>Categories</h3>
+  <ul>
+    {% if categories %}
+      {% for category in categories %}
+        <li><a href="{{ url_for('categories.details', cid=category.id) }}">
+          {{category.name}}
+        </a></li>
+      {% endfor %}
+    {% else %}
+      <p>No categories yet</p>
+    {% endif %}
+  </ul>
 {% endblock %}
