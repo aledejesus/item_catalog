@@ -14,6 +14,9 @@ def create_app(config='catalog.config.ProductionConfig'):
     # Register blueprints
     reg_bps(app)
 
+    # Import models (for migration purposes)
+    from . import Category, Item
+
     # Initialize extensions
     db.init_app(app)
     migrate.init_app(app, db)
@@ -22,8 +25,7 @@ def create_app(config='catalog.config.ProductionConfig'):
 
 
 def reg_bps(app):
-    from catalog.categories.views import categories_bp
-    from catalog.home.views import home_bp
+    from . import categories_bp, home_bp
 
     app.register_blueprint(categories_bp, url_prefix='/categories')
     app.register_blueprint(home_bp)
