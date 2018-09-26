@@ -10,3 +10,11 @@ class Item(db.Model):
         db.Integer, db.ForeignKey('category.id'), nullable=False)
     category = db.relationship(
         'Category', backref=db.backref('items', lazy=True))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'quantity': self.quantity,
+            'category_id': self.category_id}
