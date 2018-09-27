@@ -53,7 +53,7 @@ def add():
         item = Item.query.filter_by(name=item_props['name']).first()
         if item:
             flash("name: Item with name '{}' already exists".format(
-                item_props['name']))
+                item_props['name']), 'error')
             return render_template('items/add.html', form=form)
 
         try:
