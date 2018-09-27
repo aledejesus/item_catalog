@@ -2,11 +2,11 @@
 
 {% block content %}
 <h3>Create Item</h3>
-<form method="POST" action="{{ url_for('items.add', cid=request.args.get('cid')) }}">
-  {{ form.csrf_token }}
-  <div>{{form.name.label}} {{ form.name }}</div>
-  <div>{{form.description.label}} {{ form.description }}</div>
-  <div>{{form.quantity.label}} {{ form.quantity }}</div>
+<form method="POST" action="{{url_for('items.add', cid=request.args.get('cid'))}}">
+  {{form.csrf_token}}
+  <div>{{form.name.label}} {{form.name}}</div>
+  <div>{{form.description.label}} {{form.description}}</div>
+  <div>{{form.quantity.label}} {{form.quantity}}</div>
   <div><input type="submit" value="Go"></div>
 </form>
 {% endblock %}
