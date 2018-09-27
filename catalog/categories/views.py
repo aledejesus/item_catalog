@@ -8,7 +8,7 @@ categories_bp = Blueprint('categories', __name__)
 @categories_bp.route('/')
 def index():
     categories = Category.query.all()
-    return render_template('index.html', categories=categories)
+    return render_template('categories/index.html', categories=categories)
 
 
 @categories_bp.route('/<int:cid>')
