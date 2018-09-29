@@ -8,7 +8,7 @@ from sqlalchemy.orm import joinedload
 from catalog import db
 from catalog.categories.models import Category
 from .models import Item
-from .forms import ItemForm
+from .forms import ItemForm, DeleteItemForm
 
 items_bp = Blueprint('items', __name__)
 
@@ -16,9 +16,11 @@ items_bp = Blueprint('items', __name__)
 @items_bp.route('/<int:iid>')
 def details(iid):
     item = Item.query.options(joinedload(Item.category)).get(iid)
+    delete_form = DeleteItemForm()
 
     if item:
-        return render_template('items/details.html', item=item)
+        return render_template(
+            'items/details.html', item=item, delete_form=delete_form)
     else:
         abort(404)
 
@@ -112,7 +114,7 @@ def edit(iid):
             db.session.commit()
         except Exception as e:
             print(e)
-            flash("An error ocurred while modifying the item", 'error')
+            flash("An error occurred while modifying item", 'error')
         else:
             flash("Item modified successfully", 'info')
             return redirect(url_for('items.details', iid=item.id))
@@ -122,3 +124,29 @@ def edit(iid):
                 flash("{}: {}".format(field, error), 'error')
 
     return render_template('items/edit.html', form=form)
+
+
+@items_bp.route('/delete/<int:iid>', methods=('POST',))
+def delete(iid):
+    form = DeleteItemForm()
+
+    if form.validate_on_submit():
+        item = Item.query.get(iid)
+
+        if item:
+            try:
+                db.session.delete(item)
+                db.session.commit()
+            except Exception as e:
+                print(e)
+                flash("An error occurred while deleting item", 'error')
+            else:
+                flash("Item successfully deleted", 'info')
+        else:
+            flash("Item with id ({}) does not exist".format(iid), 'error')
+    else:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash("{}: {}".format(field, error), 'error')
+
+    return redirect(url_for('categories.details', cid=item.category_id))
