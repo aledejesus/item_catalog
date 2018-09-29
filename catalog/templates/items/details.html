@@ -6,6 +6,23 @@
   <p><b>Name:</b> {{ item.name }}</p>
   <p><b>Description:</b> {{ item.description }}</p>
   <p><b>Quantity:</b> {{ item.quantity }}</p>
-  </br>
-  <a href="{{ url_for('items.edit', iid=item.id) }}">Edit</a>
+  <br>
+  <a href="{{ url_for('items.edit', iid=item.id) }}"><button>Edit</button></a>
+  <br>
+  <form id="delete_form" method="POST" action="{{ url_for('items.delete', iid=item.id) }}">
+    {{ delete_form.csrf_token }}
+    {{ delete_form.action }}
+  </form>
+  <button id="delete-button" onclick="confirmDeletion()">Delete</button>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+function confirmDeletion() {
+  if (confirm("Are you sure you want to delete this Item?")) {
+    document.getElementById('delete_form').submit();
+  }
+  return false;
+}
+</script>
 {% endblock %}
