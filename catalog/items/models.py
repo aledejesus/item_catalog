@@ -8,8 +8,6 @@ class Item(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=0)
     category_id = db.Column(
         db.Integer, db.ForeignKey('category.id'), nullable=False)
-    category = db.relationship(
-        'Category', backref=db.backref('items', lazy=True))
 
     def serialize(self):
         return {
