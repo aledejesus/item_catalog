@@ -8,6 +8,8 @@ class Item(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=0)
     category_id = db.Column(
         db.Integer, db.ForeignKey('category.id'), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def serialize(self):
         return {
