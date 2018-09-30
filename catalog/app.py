@@ -15,7 +15,7 @@ def create_app(config='catalog.config.ProductionConfig'):
     reg_bps(app)
 
     # Import models (for migration purposes)
-    from . import Category, Item  # noqa: F401
+    from . import Category, Item, AppUser  # noqa: F401
 
     # Initialize extensions
     db.init_app(app)
