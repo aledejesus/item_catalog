@@ -3,7 +3,10 @@ from flask import (
     request, current_app, flash)
 from google.oauth2 import id_token
 from google.auth.transport import requests
+
+from catalog import db
 from catalog.utils import gen_ran_str
+from .models import AppUser
 
 users_bp = Blueprint('users', __name__)
 
@@ -13,7 +16,7 @@ def home():
     return redirect(url_for('categories.index'))
 
 
-@users_bp.route('/login', method=['GET', 'POST'])
+@users_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         session['state'] = gen_ran_str(32)
@@ -31,14 +34,20 @@ def login():
                 flash("Invalid token issuer", 'error')
                 return render_template('users/login.html')
 
-            g_user_id = id_info['sub']
-            # TODO: ADD THIS PROPERTY TO THE APP USER MODEL
-            # TODO: GET OTHER USER PROPERTIES FROM TOKEN PAYLOAD
-            # TODO: CHECK NEXT STEPS IN UDACITY TUTORIAL
-            # TODO: CREATE USER IF DOES NOT EXIST IN DB
-            # TODO: LOGIN USER IF IT ALREADY EXISTS
-            # TODO: TEST
+            app_user = AppUser.query.filter_by(
+                google_id=id_info['sub']).first()
 
+            if app_user:
+                pass
+                # TODO: CHECK NEXT STEPS IN UDACITY TUTORIAL
+            else:
+                app_user = AppUser(
+                    google_id=id_info['sub'], name=id_info['name'],
+                    email=id_info['email'])
+                db.session.add(app_user)
+                db.session.commit()
+                # TODO: LOGIN USER IF IT ALREADY EXISTS
+                # TODO: TEST
         else:
             # TODO: COMPLETE
             pass
