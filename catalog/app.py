@@ -15,7 +15,7 @@ def create_app(config='catalog.config.ProductionConfig'):
     reg_bps(app)
 
     # Import models (for migration purposes)
-    from . import Category, Item  # noqa: F401
+    from . import Category, Item, AppUser  # noqa: F401
 
     # Initialize extensions
     db.init_app(app)
@@ -25,8 +25,8 @@ def create_app(config='catalog.config.ProductionConfig'):
 
 
 def reg_bps(app):
-    from . import categories_bp, items_bp, home_bp
+    from . import categories_bp, items_bp, users_bp
 
     app.register_blueprint(categories_bp, url_prefix='/categories')
     app.register_blueprint(items_bp, url_prefix='/items')
-    app.register_blueprint(home_bp)
+    app.register_blueprint(users_bp)
