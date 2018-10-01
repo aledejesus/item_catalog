@@ -5,7 +5,6 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 
 from catalog import db
-from catalog.utils import gen_ran_str
 from .models import AppUser
 
 users_bp = Blueprint('users', __name__)
@@ -18,12 +17,11 @@ def home():
 
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    # redirect to home if already loged in
     if session.get('app_user_id'):
+        # redirect to home if already logged in
         flash("You are already logged in", 'info')
         return redirect(url_for('users.home'))
-    if request.method == 'GET':
-        session['state'] = gen_ran_str(32)
+    elif request.method == 'GET':
         return render_template('users/login.html')
     else:
         token = request.form.get('id_token', None)
@@ -42,19 +40,24 @@ def login():
                 google_id=id_info['sub']).first()
 
             if not app_user:
-                app_user = AppUser(
-                    google_id=id_info['sub'], name=id_info['name'],
-                    email=id_info['email'])
-                db.session.add(app_user)
-                db.session.commit()
+                try:
+                    app_user = AppUser(
+                        google_id=id_info['sub'], name=id_info['name'],
+                        email=id_info['email'])
+                    db.session.add(app_user)
+                    db.session.commit()
+                except Exception as e:
+                    print(e)
+                    flash("An error occurred. Try again later", 'error')
+                    return render_template('users/login.html')
+                else:
+                    session['app_user_id'] = app_user.id
+                    session['app_user_name'] = app_user.name
+                    session['app_user_email'] = app_user.email
 
-            session['app_user_id'] = app_user.id
-            session['app_user_name'] = app_user.name
-            session['app_user_email'] = app_user.email
-
-            flash("Logged in successfully. Welcome {}".format(
-                app_user.name), 'info')
-            return redirect(url_for('users.home'))
+                    flash("Logged in successfully. Welcome {}".format(
+                        app_user.name), 'info')
+                    return redirect(url_for('users.home'))
 
         else:
             flash("Google token missing. Try again later", 'error')
