@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block head %}
+{{ super() }}
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="690406881901-cdc086p9iojoad5l0s6ge0etg4m14mdf.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    function onSignIn(googleUser) {
+      var id_token = googleUser.getAuthResponse().id_token;
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', window.location.href);
+      xhr.setRequestHeader(
+          'Content-Type', 'application/x-www-form-urlencoded');
+      xhr.send('id_token=' + id_token);
+    };
+  </script>
+{% endblock %}

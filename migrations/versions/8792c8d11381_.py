@@ -25,7 +25,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.add_column('item', sa.Column('app_user_id', sa.Integer(), nullable=True))
-    op.execute("INSERT INTO app_user VALUES(1, 'Admin', 'admin@admin.com')")
+    op.execute("INSERT INTO app_user VALUES(nextval('app_user_id_seq'::regclass), 'Admin', 'admin@admin.com')")
     op.execute("UPDATE item SET app_user_id=1")
     op.alter_column('item', 'app_user_id',
                existing_type=sa.INTEGER(),
