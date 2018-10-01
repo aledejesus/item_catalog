@@ -18,11 +18,15 @@ def home():
 
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    # redirect to home if already loged in
+    if session.get('app_user_id'):
+        flash("You are already logged in", 'info')
+        return redirect(url_for('users.home'))
     if request.method == 'GET':
         session['state'] = gen_ran_str(32)
         return render_template('users/login.html')
     else:
-        token = request.args.get('id_token', None)
+        token = request.form.get('id_token', None)
         if token:
             id_info = id_token.verify_oauth2_token(
                 token, requests.Request(),
@@ -37,17 +41,21 @@ def login():
             app_user = AppUser.query.filter_by(
                 google_id=id_info['sub']).first()
 
-            if app_user:
-                pass
-                # TODO: CHECK NEXT STEPS IN UDACITY TUTORIAL
-            else:
+            if not app_user:
                 app_user = AppUser(
                     google_id=id_info['sub'], name=id_info['name'],
                     email=id_info['email'])
                 db.session.add(app_user)
                 db.session.commit()
-                # TODO: LOGIN USER IF IT ALREADY EXISTS
-                # TODO: TEST
+
+            session['app_user_id'] = app_user.id
+            session['app_user_name'] = app_user.name
+            session['app_user_email'] = app_user.email
+
+            flash("Logged in successfully. Welcome {}".format(
+                app_user.name), 'info')
+            return redirect(url_for('users.home'))
+
         else:
-            # TODO: COMPLETE
-            pass
+            flash("Google token missing. Try again later", 'error')
+            return render_template('users/login.html')
