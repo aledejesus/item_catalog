@@ -1,6 +1,6 @@
 from flask import (
     Blueprint, redirect, url_for, session, render_template,
-    request, current_app, flash)
+    request, current_app, flash, abort)
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
@@ -62,3 +62,17 @@ def login():
         else:
             flash("Google token missing. Try again later", 'error')
             return render_template('users/login.html')
+
+
+@users_bp.route('/logout', methods=['POST'])
+def logout():
+    if session.get('app_user_id'):
+        del session['app_user_id']
+        del session['app_user_name']
+        del session['app_user_email']
+
+        flash("You have logged out", 'info')
+        return redirect(url_for('users.login'))
+    else:
+        flash("Log out failed. You are not logged in")
+        abort(400)

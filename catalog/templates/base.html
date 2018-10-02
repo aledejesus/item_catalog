@@ -2,13 +2,18 @@
 <html>
   <head>
     {% block head %}
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
     {% endblock %}
   </head>
 
   <body>
     <div id="header">
       {% block header %}
-        <h3>Header</h3>
+        {% if session.app_user_id %}
+          <button onclick="logOut()">Log out</button>
+        {% else %}
+          <a href="{{ url_for('users.login') }}"><button>Log in</button></a>
+        {% endif %}
       {% endblock %}
     </div>
     <div id="content">
@@ -33,6 +38,28 @@
       {% endblock %}
     </div>
     {% block scripts %}
+      <script type="text/javascript">
+        function loadEndHandler() {
+          if (this.status == 302) {
+            link = this.getResponseHeader('Link');
+            window.location.href = link;
+          }
+          else if (this.status == 400) {
+            window.location.reload();
+          }
+        }
+
+        function logOut() {
+          console.log('YES');
+          if (confirm("Are you sure you want to log out?")) {
+            auth2.disconnect();
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', "{{ url_for('users.logout') }}");
+            xhr.addEventListener('loadend', loadEndHandler);
+            xhr.send();
+          }
+        }
+      </script>
     {% endblock %}
   </body>
 </html>
