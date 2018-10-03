@@ -50,14 +50,14 @@ def login():
                     print(e)
                     flash("An error occurred. Try again later", 'error')
                     return render_template('users/login.html')
-                else:
-                    session['app_user_id'] = app_user.id
-                    session['app_user_name'] = app_user.name
-                    session['app_user_email'] = app_user.email
 
-                    flash("Logged in successfully. Welcome {}".format(
-                        app_user.name), 'info')
-                    return redirect(url_for('users.home'))
+            session['app_user_id'] = app_user.id
+            session['app_user_name'] = app_user.name
+            session['app_user_email'] = app_user.email
+
+            flash("Logged in successfully. Welcome {}".format(
+                app_user.name), 'info')
+            return redirect(url_for('users.home'))
 
         else:
             flash("Google token missing. Try again later", 'error')
