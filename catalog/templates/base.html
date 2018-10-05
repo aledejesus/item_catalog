@@ -2,13 +2,18 @@
 <html>
   <head>
     {% block head %}
+      <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     {% endblock %}
   </head>
 
   <body>
     <div id="header">
       {% block header %}
-        <h3>Header</h3>
+        {% if session.app_user_id %}
+          <a href="#" onclick="logOut();"><button>Log out</button></a>
+        {% else %}
+          <a href="{{ url_for('users.login') }}"><button>Log in</button></a>
+        {% endif %}
       {% endblock %}
     </div>
     <div id="content">
@@ -33,6 +38,42 @@
       {% endblock %}
     </div>
     {% block scripts %}
+      <script type="text/javascript">
+        var auth2;
+
+        function init() {
+          console.log("Initializing auth2");
+          gapi.load('auth2', function() {
+            console.log("auth2 loaded");
+            auth2 = gapi.auth2.init({
+              client_id: "690406881901-cdc086p9iojoad5l0s6ge0etg4m14mdf.apps.googleusercontent.com",
+              scope: "profile email"});
+          });
+        }
+
+        function loadEndHandler() {
+          if (this.status == 200) {
+            next_path = JSON.parse(this.response)['next'];
+            window.location.pathname = next_path;
+          }
+          else if (this.status == 400) {
+            window.location.reload();
+          }
+        }
+
+        function logOut() {
+          if (confirm("Are you sure you want to log out?")) {
+            auth2.disconnect().then(function () {
+              console.log("User signed out.");
+
+              var xhr = new XMLHttpRequest();
+              xhr.open('POST', "{{ url_for('users.logout') }}");
+              xhr.addEventListener('loadend', loadEndHandler);
+              xhr.send();
+            });
+          }
+        }
+      </script>
     {% endblock %}
   </body>
 </html>
