@@ -1,6 +1,6 @@
 from flask import (
     Blueprint, redirect, url_for, session, render_template,
-    request, current_app, flash, abort)
+    request, current_app, flash, abort, jsonify)
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
@@ -57,7 +57,7 @@ def login():
 
             flash("Logged in successfully. Welcome {}".format(
                 app_user.name), 'info')
-            return redirect(url_for('users.home'))
+            return jsonify({'next': url_for('users.home')})
 
         else:
             flash("Google token missing. Try again later", 'error')
@@ -72,7 +72,7 @@ def logout():
         del session['app_user_email']
 
         flash("You have logged out", 'info')
-        return redirect(url_for('users.login'))
+        return jsonify({'next': url_for("users.login")})
     else:
         flash("Log out failed. You are not logged in")
         abort(400)

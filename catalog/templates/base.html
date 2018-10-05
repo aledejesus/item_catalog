@@ -48,14 +48,13 @@
             auth2 = gapi.auth2.init({
               client_id: "690406881901-cdc086p9iojoad5l0s6ge0etg4m14mdf.apps.googleusercontent.com",
               scope: "profile email"});
-            auth2.attachClickHandler('signin-button', {}, onSignIn);
           });
         }
 
         function loadEndHandler() {
-          // TODO: SOLVE DOUBLE REDIRECT. MAYBE BY NOT FOLLOWING REDIRECTS IN REQ
           if (this.status == 200) {
-            window.location.href = this.responseURL;
+            next_path = JSON.parse(this.response)['next'];
+            window.location.pathname = next_path;
           }
           else if (this.status == 400) {
             window.location.reload();
@@ -64,7 +63,7 @@
 
         function logOut() {
           if (confirm("Are you sure you want to log out?")) {
-            auth2.signOut().then(function () {
+            auth2.disconnect().then(function () {
               console.log("User signed out.");
 
               var xhr = new XMLHttpRequest();
