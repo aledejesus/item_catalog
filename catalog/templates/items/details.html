@@ -7,13 +7,19 @@
   <p><b>Description:</b> {{ item.description }}</p>
   <p><b>Quantity:</b> {{ item.quantity }}</p>
   <br>
-  <a href="{{ url_for('items.edit', iid=item.id) }}"><button>Edit</button></a>
-  <br>
+  <a href="{{ url_for('items.edit', iid=item.id) }}">
+    <button {% if not can_modify_item %}disabled{% endif %}>
+      Edit
+    </button>
+  </a>
   <form id="delete_form" method="POST" action="{{ url_for('items.delete', iid=item.id) }}">
     {{ delete_form.csrf_token }}
     {{ delete_form.action }}
   </form>
-  <button id="delete-button" onclick="confirmDeletion()">Delete</button>
+  <button id="delete-button" onclick="confirmDeletion()"
+      {% if not can_modify_item %}disabled{% endif %}>
+    Delete
+  </button>
 {% endblock %}
 
 {% block scripts %}
