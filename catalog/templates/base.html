@@ -9,9 +9,12 @@
   <body>
     <div id="header">
       {% block header %}
+        <h2>Item Catalog</h2>
         {% if session.app_user_id %}
+          <span>Logged in as {{ session.app_user_name }}</span>
           <a href="#" onclick="logOut();"><button>Log out</button></a>
         {% else %}
+          <span>Not logged in</span>
           <a href="{{ url_for('users.login') }}"><button>Log in</button></a>
         {% endif %}
       {% endblock %}
@@ -34,7 +37,16 @@
     </div>
     <div id="footer">
       {% block footer %}
-        <h3>Footer</h3>
+        <div>
+          Item catalog by Alejandro De Jesús
+        </div>
+        <div>
+          GitHub icon
+          <br>
+          LinkedIn icon
+          <br>
+          Email icon
+        </div>
       {% endblock %}
     </div>
     {% block scripts %}
