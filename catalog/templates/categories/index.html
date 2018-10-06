@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+  {{ macros.breadcrumb(('Categories', url_for('categories.index'))) }}
+{% endblock %}
+
+
 {% block content %}
   <h3>Categories</h3>
   <ul>

@@ -1,12 +1,15 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, TextField, HiddenField
+from wtforms import StringField, IntegerField, HiddenField
+from wtforms.fields import TextAreaField
 from wtforms.validators import ValidationError, DataRequired, NumberRange
 
 
 class ItemForm(FlaskForm):
     """ Form used for Item creation and edition """
     name = StringField('Name', validators=[DataRequired()])
-    description = TextField('Description', validators=[DataRequired()])
+    description = TextAreaField(
+        'Description', validators=[DataRequired()],
+        render_kw={'rows': 7, 'cols': 32})
     quantity = IntegerField(
         'Quantity', validators=[DataRequired(), NumberRange(min=0)])
     category_id = IntegerField(

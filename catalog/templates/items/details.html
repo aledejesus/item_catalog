@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+  {{ macros.breadcrumb(
+      ('Categories', url_for('categories.index')),
+      (item.category.name, url_for('categories.details', cid=item.category_id)),
+      (item.name, url_for('items.details', iid=item.id)))}}
+{% endblock %}
+
+
 {% block content %}
-  <h3>Items</h3>
-  <p><b>Category:</b> {{ item.category.name }}</p>
-  <p><b>Name:</b> {{ item.name }}</p>
+  <h3>{{ item.name }}</h3>
   <p><b>Description:</b> {{ item.description }}</p>
   <p><b>Quantity:</b> {{ item.quantity }}</p>
   <br>

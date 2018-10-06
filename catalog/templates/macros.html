@@ -1,0 +1,13 @@
+{% macro breadcrumb() %}
+  <ul class="breadcrumb">
+    {% for crumb in varargs %}
+      <li>
+        {% if loop.last %}
+          {{ crumb.0 }}
+        {% else %}
+          <a href="{{ crumb.1 }}">{{ crumb.0 }}</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endmacro %}

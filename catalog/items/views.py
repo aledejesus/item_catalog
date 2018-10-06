@@ -50,7 +50,7 @@ def add():
     cid = ''
     try:
         cid = int(request.args.get('cid'))
-        Category.query.filter_by(id=cid).one()
+        category = Category.query.filter_by(id=cid).one()
     except Exception as e:
         print(e)
         flash("Invalid category id ({})".format(cid), 'error')
@@ -72,7 +72,8 @@ def add():
         if item:
             flash("name: Item with name '{}' already exists".format(
                 item_props['name']), 'error')
-            return render_template('items/add.html', form=form)
+            return render_template(
+                'items/add.html', form=form, category=category)
 
         # create item
         try:
@@ -91,7 +92,7 @@ def add():
             for error in errors:
                 flash("{}: {}".format(field, error), 'error')
 
-    return render_template('items/add.html', form=form)
+    return render_template('items/add.html', form=form, category=category)
 
 
 @items_bp.route('/edit/<int:iid>', methods=('GET', 'POST'))
@@ -122,14 +123,14 @@ def edit(iid):
         if same_name_item:
             flash("name: Item with name '{}' already exists".format(
                 form.name.data), 'error')
-            return render_template('items/edit.html', form=form)
+            return render_template('items/edit.html', form=form, item=item)
 
         # validate category exists
         category = Category.query.get(form.category_id.data)
         if not category:
             flash("category_id: Category with id ({}) does not exist".format(
                 form.category_id.data), 'error')
-            return render_template('items/edit.html', form=form)
+            return render_template('items/edit.html', form=form, item=item)
 
         # modify item
         try:
@@ -150,7 +151,7 @@ def edit(iid):
             for error in errors:
                 flash("{}: {}".format(field, error), 'error')
 
-    return render_template('items/edit.html', form=form)
+    return render_template('items/edit.html', form=form, item=item)
 
 
 @items_bp.route('/delete/<int:iid>', methods=('POST',))
