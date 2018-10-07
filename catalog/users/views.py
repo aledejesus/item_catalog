@@ -12,11 +12,39 @@ users_bp = Blueprint('users', __name__)
 
 @users_bp.route('/')
 def home():
+    """
+    Get home page
+
+    Arguments:
+        None
+
+    Returns:
+        - redirection to categories index
+    """
     return redirect(url_for('categories.index'))
 
 
 @users_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Render login page or try to log in depending on HTTP
+    method used.
+
+    Arguments:
+        None
+
+    Returns:
+        - redirection to home on successful login
+                OR
+        - rendered login page on GET request, token
+            issuer error detected, on user creation
+            error or missing Google token
+                OR
+        - json object response with redirection path
+            on successful login. This is done this
+            way because the POST request of this
+            endpoint is made using JavaScript
+    """
     if session.get('app_user_id'):
         # redirect to home if already logged in
         flash("You are already logged in", 'info')
@@ -66,6 +94,20 @@ def login():
 
 @users_bp.route('/logout', methods=['POST'])
 def logout():
+    """
+    Log user out
+
+    Arguments:
+        None
+
+    Returns:
+        - json response with redirection URL. This is done
+            this way because the POST request of this
+            endpoint is made using JavaScript
+
+    Raises:
+        - flask.HTTPException if user is not logged in
+    """
     if session.get('app_user_id'):
         del session['app_user_id']
         del session['app_user_name']

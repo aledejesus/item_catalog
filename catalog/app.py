@@ -7,6 +7,16 @@ migrate = Migrate()
 
 
 def create_app(config='catalog.config.ProductionConfig'):
+    """
+    Create flask app instance and initialize all extensions
+
+    Arguments:
+        - config (string): path to object to be used to
+            configure app
+
+    Returns:
+        - flask.Flask instance
+    """
     # Create app
     app = Flask(__name__)
     app.config.from_object(config)
@@ -25,6 +35,16 @@ def create_app(config='catalog.config.ProductionConfig'):
 
 
 def reg_bps(app):
+    """
+    Register blueprints to app
+
+    Arguments:
+        - app (flask.Flask): app instance to
+            register blueprints to
+
+    Returns:
+        None
+    """
     from . import categories_bp, items_bp, users_bp
 
     app.register_blueprint(categories_bp, url_prefix='/categories')

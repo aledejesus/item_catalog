@@ -1,3 +1,9 @@
+"""
+Import all objects and classes app.py needs to run
+flask app and all objects the app needs to function
+properly (e.g., db and cache objects).
+"""
+
 from .app import create_app, db  # noqa: F401
 
 # Import models

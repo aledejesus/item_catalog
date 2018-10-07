@@ -15,6 +15,18 @@ items_bp = Blueprint('items', __name__)
 
 @items_bp.route('/<int:iid>')
 def details(iid):
+    """
+    Render Item details
+
+    Arguments:
+        - iid (int): item id
+
+    Returns:
+        - string: rendered HTML template
+
+    Raises:
+        - flask.HTTPException on inexistent Item
+    """
     item = Item.query.options(joinedload(Item.category)).get(iid)
     delete_form = DeleteItemForm()
     app_user_id = session.get('app_user_id', '')
@@ -30,6 +42,18 @@ def details(iid):
 
 @items_bp.route('/<int:iid>/json')
 def details_json(iid):
+    """
+    Get Item details in json format
+
+    Arguments:
+        - iid (int): item id
+
+    Returns:
+        - json object with Item properties
+
+    Raises:
+        - flask.HTTPException on inexistent Item
+    """
     item = Item.query.options(joinedload(Item.category)).get(iid)
 
     if item:
@@ -40,6 +64,19 @@ def details_json(iid):
 
 @items_bp.route('/add/', methods=('GET', 'POST'))
 def add():
+    """
+    Add Item to the Category specified in the query string
+
+    Arguments:
+        None
+
+    Returns:
+        - redirection to /categories when there's an error
+            in the cid parameter or item is successfully created
+                OR
+        - rendered /items/add HTML template when there
+            errors occurred while creating the Item
+    """
     # check that a user is logged in
     app_user_id = session.get('app_user_id', '')
     if not app_user_id:
@@ -97,6 +134,25 @@ def add():
 
 @items_bp.route('/edit/<int:iid>', methods=('GET', 'POST'))
 def edit(iid):
+    """
+    Update item with id specified in request path
+
+    Arguments:
+        - iid (int): Item id
+
+    Returns:
+        - redirection to /categories when item does not exist
+                OR
+        - redirection to item details page when user is not the
+            creator of the item
+                OR
+        - redirection to item edit page when there are form errors
+                OR
+        - redirection to item details page on successful update
+                OR
+        - rendered item edit HTML template when errors
+            occurred while modifying the Item
+    """
     # check item existence
     try:
         item = Item.query.filter_by(id=iid).one()
@@ -156,6 +212,20 @@ def edit(iid):
 
 @items_bp.route('/delete/<int:iid>', methods=('POST',))
 def delete(iid):
+    """
+    Delete item with id specified in request path
+
+    Arguments:
+        - iid (int): Item id
+
+    Returns:
+        - redirection to /categories when item does not exist
+                OR
+        - redirection to item details page when user is not the
+            creator of the item
+                OR
+        - redirection to category details page on successful deletion
+    """
     # create form
     form = DeleteItemForm()
 
