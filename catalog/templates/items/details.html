@@ -1,25 +1,41 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+  {{ macros.breadcrumb(
+      ('Categories', url_for('categories.index')),
+      (item.category.name, url_for('categories.details', cid=item.category_id)),
+      (item.name, url_for('items.details', iid=item.id)))}}
+{% endblock %}
+
+
 {% block content %}
-  <h3>Items</h3>
-  <p><b>Category:</b> {{ item.category.name }}</p>
-  <p><b>Name:</b> {{ item.name }}</p>
-  <p><b>Description:</b> {{ item.description }}</p>
-  <p><b>Quantity:</b> {{ item.quantity }}</p>
-  <br>
-  <a href="{{ url_for('items.edit', iid=item.id) }}">
-    <button {% if not can_modify_item %}disabled{% endif %}>
-      Edit
-    </button>
-  </a>
+  <h3>{{ item.name }}</h3>
+  <p>{{ item.description }}</p>
+  <p class="small-text"><b>Quantity:</b> {{ item.quantity }}</p>
+  <p class="small-text">
+    <b>Added by:</b>
+    <span>
+      {% if session.app_user_id == item.app_user_id %}
+        you
+      {% else %}
+        {{ item.app_user.name }}
+      {% endif %}
+    </span>
+  </P>
+
+  {{ macros.link_button(
+      method="GET", url=url_for('items.edit', iid=item.id),
+      text="Edit", class="safe", disabled=(not can_modify_item)) }}
+
+  <button id="delete-button" class="dangerous" onclick="confirmDeletion()"
+      {% if not can_modify_item %}disabled{% endif %}>
+    Delete
+  </button>
+
   <form id="delete_form" method="POST" action="{{ url_for('items.delete', iid=item.id) }}">
     {{ delete_form.csrf_token }}
     {{ delete_form.action }}
   </form>
-  <button id="delete-button" onclick="confirmDeletion()"
-      {% if not can_modify_item %}disabled{% endif %}>
-    Delete
-  </button>
 {% endblock %}
 
 {% block scripts %}

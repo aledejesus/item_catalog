@@ -7,13 +7,21 @@
 {% endblock %}
 
 {% block header %}
+  <div class="login-title-div center-text">
+    <h2 class="login-title">Item Catalog</h2>
+  </div>
 {% endblock %}
 
 {% block content %}
-  <div id="signin-button" class="g-signin2" data-onsuccess="onLogIn"></div>
-{% endblock %}
+  <div class="login-form center-text">
+    <h3>Log in</h3>
+    <div id="signin-button" class="g-signin2" data-onsuccess="onLogIn"></div>
+  </div>
+  <div class="center-text">
+    <p class="smaller-text">Or go directly to <a href="{{ url_for('categories.index') }}">Categories</a></p>
+    <p class="smaller-text"><b>Note:</b> You won't be able to modify items unless you are logged in</p>
+  </div>
 
-{% block footer %}
 {% endblock %}
 
 {% block scripts %}

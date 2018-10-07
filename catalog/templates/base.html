@@ -1,31 +1,46 @@
+{% import 'macros.html' as macros %}
 <!DOCTYPE html>
 <html>
   <head>
     {% block head %}
       <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% endblock %}
   </head>
 
   <body>
-    <div id="header">
+    <div class="header">
       {% block header %}
-        <h2>Item Catalog</h2>
-        {% if session.app_user_id %}
-          <span>Logged in as {{ session.app_user_name }}</span>
-          <a href="#" onclick="logOut();"><button>Log out</button></a>
-        {% else %}
-          <span>Not logged in</span>
-          <a href="{{ url_for('users.login') }}"><button>Log in</button></a>
-        {% endif %}
+        <h2 class="page-title">Item Catalog</h2>
+        <div class="login-info">
+          <div>
+            {% if session.app_user_id %}
+              <span>Logged in as {{ session.app_user_name }}</span>
+              <button class="dangerous" onclick="logOut()">Log out</button>
+            {% else %}
+              <span>Not logged in</span>
+              {{ macros.link_button(
+                  method="GET", url=url_for('users.login'),
+                  text="Log in", class="safe") }}
+            {% endif %}
+          </div>
+        </div>
       {% endblock %}
     </div>
-    <div id="content">
+
+    <div class="breadcrumb">
+      {% block breadcrumbs %}
+      {% endblock %}
+    </div>
+
+    <div class="content">
       {% block messages %}
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-            <ul>
-              {% for message in messages %}
-                <li>{{message}}</li>
+            <ul class="flash-messages">
+              {% for category, message in messages %}
+                <li class="small-text {{ category }}">{{message}}</li>
               {% endfor %}
             </ul>
           {% endif %}
@@ -35,20 +50,21 @@
       {% block content %}
       {% endblock %}
     </div>
-    <div id="footer">
+
+    <div class="footer center-text small-text">
       {% block footer %}
-        <div>
-          Item catalog by Alejandro De Jesús
-        </div>
-        <div>
-          GitHub icon
-          <br>
-          LinkedIn icon
-          <br>
-          Email icon
+        <span>By Alejandro De Jesús</span>
+        <div class="social-icons">
+          <a href="https://github.com/aledejesus">
+            <i class="fa fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/alejandro-de-jesus/">
+            <i class="fa fa-linkedin"></i>
+          </a>
         </div>
       {% endblock %}
     </div>
+
     {% block scripts %}
       <script type="text/javascript">
         var auth2;

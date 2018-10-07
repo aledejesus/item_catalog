@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+  {{ macros.breadcrumb(
+      ('Categories', url_for('categories.index')),
+      (item.category.name, url_for('categories.details', cid=item.category_id)),
+      (item.name, url_for('items.details', iid=item.id)),
+      ('Edit', url_for('items.edit', iid=item.id)))}}
+{% endblock %}
+
+
 {% block content %}
-<h3>Edit Item</h3>
-<form method="POST" action="">
-  {{form.csrf_token}}
-  <div>{{form.name.label}} {{form.name}}</div>
-  <div>{{form.description.label}} {{form.description}}</div>
-  <div>{{form.quantity.label}} {{form.quantity}}</div>
-  <div>{{form.category_id.label}} {{form.category_id}}</div>
-  <div><input type="submit" value="Go"></div>
-</form>
+  <h3>Edit Item</h3>
+  <form method="POST" action="">
+    {{form.csrf_token}}
+    <div>{{form.name.label}} <br> {{form.name}}</div><br>
+    <div>{{form.description.label}} <br> {{form.description}}</div><br>
+    <div>{{form.quantity.label}} <br> {{form.quantity}}</div><br>
+    <div>{{form.category_id.label}} <br> {{form.category_id}}</div><br>
+    <div><input type="submit" value="Update" class="safe"></div>
+  </form>
 {% endblock %}

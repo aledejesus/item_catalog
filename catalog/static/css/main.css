@@ -1,0 +1,170 @@
+/* General styling */
+body {
+  width: 100%;
+  max-width:700px;
+  font-size: 16px;
+  margin: 0 auto;
+  font-family: "Manjari Regular", "Liberation Sans", Arial, sans-serif;
+}
+
+body > div {
+  padding: 10px;
+}
+
+a {
+  color: #004EC3;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  font-size: 32px;
+  margin: 20px 0px;
+}
+
+h3, h4, p {
+  margin: 10px 0px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0px 0px 20px;
+}
+
+button, input[type=submit] {
+  border: none;
+  color: black;
+  padding: 10px 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:disabled, input[type=submit]:disabled {
+  color: black;
+  background-color: #bdbfc5;
+  cursor: not-allowed;
+}
+
+button:hover, input[type=submit]:hover {
+  opacity: 0.7;
+}
+
+.safe { /* Background for safe buttons */
+  background-color: #07770cb3;
+}
+
+.info { /* Background for info messages */
+  background-color: #077724;
+}
+
+.error { /* Background for error messages */
+  background-color: #771707;
+}
+
+.dangerous { /* Background for dangerous buttons */
+  background-color: #770707b3;
+}
+
+.flash-messages {
+  margin: 0;
+}
+
+.flash-messages > li {
+  padding: 10px;
+  color: white;
+}
+
+.small-text {
+  font-size: 14px;
+}
+
+.smaller-text {
+  font-size: 12px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.inline-element {
+  display: inline;
+}
+
+/* Login page */
+.login-form {
+  width: 120px; /* Google sign in button width */
+  display: block;
+  margin: 0 auto;
+  padding: 0px 0px 15px 0px;
+}
+
+.login-title-div {
+  width: 100%;
+}
+
+.login-title {
+  float: none;
+}
+
+/* Header styling */
+.header {
+  display: flex;
+  align-items: center;
+  background-color: #29648A;
+}
+
+.page-title {
+  display: inline-block;
+  width: 40%;
+}
+
+.login-info {
+  display: inline-block;
+  width: 60%;
+}
+
+.login-info > div {
+  float: right;
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+  display: block;
+  margin: 0px 10px;
+  background-color: #bdbfc5;
+}
+
+.breadcrumb ul {
+  margin: 0;
+}
+
+.breadcrumb li+li:before {
+  padding: 6px;
+  content: ">"
+}
+
+/* Footer styling */
+.footer {
+  background-color: #29648A;
+}
+
+.social-icons {
+  font-size: 26px;
+}
+
+.social-icons > i:first-child {
+  margin-right: 10px;
+}
+
+.social-icons > a {
+  color: black;
+}
+
+.social-icons > a:hover {
+  opacity: 0.7;
+  text-decoration: none;
+}
