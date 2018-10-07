@@ -9,24 +9,27 @@
 {% block content %}
   <h3>{{ category.name }}</h3>
   <p>{{ category.description }}</p>
-    <a href="{{ url_for('items.add', cid=category.id) }}">
-      <button {% if not can_create_item %}disabled{% endif %}>
-        Add Item
-      </button>
-    </a>
+  <h4 class="inline-element">Items</h4>
+
+  {{ macros.link_button(
+      method="GET", url=url_for('items.add'),
+      text="Add Item", class="safe", disabled=(not can_create_item),
+      query_params=(('cid', category.id),)) }}
+
   <ul>
     {% for item in category.items %}
       <li><div>
         <a href="{{ url_for('items.details', iid=item.id) }}">
           {{item.name}}
         </a>
-        <br>
-        <span>Created by </span>
-        {% if session.app_user_id == item.app_user_id %}
-          <span>you</span>
-        {% else %}
-          <span>{{ item.app_user.name }}</span>
-        {% endif %}
+        <span class="small-text">
+          - added by
+          {% if session.app_user_id == item.app_user_id %}
+            you
+          {% else %}
+            {{ item.app_user.name }}
+          {% endif %}
+        </span>
       </div></li>
     {% endfor %}
   </ul>

@@ -8,7 +8,7 @@
 
 {% block header %}
   <div class="login-title-div center-text">
-    <span class="login-title">Item Catalog</span>
+    <h2 class="login-title">Item Catalog</h2>
   </div>
 {% endblock %}
 
@@ -18,8 +18,8 @@
     <div id="signin-button" class="g-signin2" data-onsuccess="onLogIn"></div>
   </div>
   <div class="center-text">
-    <p class="note">Or go directly to <a href="{{ url_for('categories.index') }}">Categories</a></p>
-    <p class="note"><b>Note:</b> You won't be able to modify items unless you are logged in</p>
+    <p class="smaller-text">Or go directly to <a href="{{ url_for('categories.index') }}">Categories</a></p>
+    <p class="smaller-text"><b>Note:</b> You won't be able to modify items unless you are logged in</p>
   </div>
 
 {% endblock %}

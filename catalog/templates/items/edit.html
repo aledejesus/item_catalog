@@ -13,10 +13,10 @@
   <h3>Edit Item</h3>
   <form method="POST" action="">
     {{form.csrf_token}}
-    <div>{{form.name.label}} <br> {{form.name}}</div>
-    <div>{{form.description.label}} <br> {{form.description}}</div>
-    <div>{{form.quantity.label}} <br> {{form.quantity}}</div>
-    <div>{{form.category_id.label}} <br> {{form.category_id}}</div>
-    <div><input type="submit" value="Go"></div>
+    <div>{{form.name.label}} <br> {{form.name}}</div><br>
+    <div>{{form.description.label}} <br> {{form.description}}</div><br>
+    <div>{{form.quantity.label}} <br> {{form.quantity}}</div><br>
+    <div>{{form.category_id.label}} <br> {{form.category_id}}</div><br>
+    <div><input type="submit" value="Update" class="safe"></div>
   </form>
 {% endblock %}

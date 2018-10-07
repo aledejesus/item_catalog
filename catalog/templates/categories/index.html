@@ -10,9 +10,12 @@
   <ul>
     {% if categories %}
       {% for category in categories %}
-        <li><a href="{{ url_for('categories.details', cid=category.id) }}">
-          {{category.name}}
-        </a></li>
+        <li>
+          <a href="{{ url_for('categories.details', cid=category.id) }}">
+            {{category.name}}
+          </a>
+          <span class="small-text">- {{ category.items|length }} items</span>
+        </li>
       {% endfor %}
     {% else %}
       <p>No categories yet</p>

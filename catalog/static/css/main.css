@@ -7,22 +7,93 @@ body {
   font-family: "Manjari Regular", "Liberation Sans", Arial, sans-serif;
 }
 
+body > div {
+  padding: 10px;
+}
+
 a {
-    color: #004EC3;
-    text-decoration: none;
+  color: #004EC3;
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-.note {
+h2 {
+  font-size: 32px;
+  margin: 20px 0px;
+}
+
+h3, h4, p {
+  margin: 10px 0px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0px 0px 20px;
+}
+
+button, input[type=submit] {
+  border: none;
+  color: black;
+  padding: 10px 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:disabled, input[type=submit]:disabled {
+  color: black;
+  background-color: #bdbfc5;
+  cursor: not-allowed;
+}
+
+button:hover, input[type=submit]:hover {
+  opacity: 0.7;
+}
+
+.safe { /* Background for safe buttons */
+  background-color: #07770cb3;
+}
+
+.info { /* Background for info messages */
+  background-color: #077724;
+}
+
+.error { /* Background for error messages */
+  background-color: #771707;
+}
+
+.dangerous { /* Background for dangerous buttons */
+  background-color: #770707b3;
+}
+
+.flash-messages {
+  margin: 0;
+}
+
+.flash-messages > li {
+  padding: 10px;
+  color: white;
+}
+
+.small-text {
+  font-size: 14px;
+}
+
+.smaller-text {
   font-size: 12px;
 }
 
 .center-text {
   text-align: center;
 }
+
+.inline-element {
+  display: inline;
+}
+
 /* Login page */
 .login-form {
   width: 120px; /* Google sign in button width */
@@ -32,48 +103,43 @@ a:hover {
 }
 
 .login-title-div {
-  overflow: auto;
+  width: 100%;
 }
 
 .login-title {
-    font-size: 32px;
-    font-weight: bold;
-    display: inline;
+  float: none;
 }
 
 /* Header styling */
 .header {
-  display: block;
-  /*width: 100%;*/
-  overflow: auto;
+  display: flex;
+  align-items: center;
   background-color: #29648A;
-  padding: 10px;
 }
 
 .page-title {
-  font-size: 32px;
-  font-weight: bold;
-  display: inline;
-  float: left;
+  display: inline-block;
+  width: 40%;
 }
 
 .login-info {
   display: inline-block;
+  width: 60%;
+}
+
+.login-info > div {
   float: right;
 }
 
-/* Breadcrumb CSS */
+/* Breadcrumb styling */
 .breadcrumb {
   display: block;
   margin: 0px 10px;
-  padding: 10px;
-  list-style: none;
   background-color: #bdbfc5;
 }
 
-.breadcrumb li {
-  display: inline;
-  font-size: 14px;
+.breadcrumb ul {
+  margin: 0;
 }
 
 .breadcrumb li+li:before {
@@ -81,16 +147,9 @@ a:hover {
   content: ">"
 }
 
-/* Content styling */
-.content {
-  padding: 0px 10px 10px 10px;
-}
-
 /* Footer styling */
 .footer {
-  font-size: 14px;
   background-color: #29648A;
-  padding: 10px;
 }
 
 .social-icons {

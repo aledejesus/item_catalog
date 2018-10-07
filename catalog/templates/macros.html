@@ -1,7 +1,7 @@
 {% macro breadcrumb() %}
-  <ul class="breadcrumb">
+  <ul>
     {% for crumb in varargs %}
-      <li>
+      <li class="small-text inline-element">
         {% if loop.last %}
           {{ crumb.0 }}
         {% else %}
@@ -10,4 +10,18 @@
       </li>
     {% endfor %}
   </ul>
+{% endmacro %}
+
+{% macro link_button(method, url, text, class, form_id, disabled, query_params) %}
+  <!-- Macro for buttons that take to another page.
+  Replaces buttons inside anchor tags. -->
+
+  <form {% if id %}id="{{ form_id }}"{% endif %} method="{{ method }}" action="{{ url }}" class="inline-element">
+    {% if query_params %}
+      {% for param in query_params %}
+        <input type="hidden" name="{{ param.0 }}" value="{{ param.1 }}">
+      {% endfor %}
+    {% endif %}
+    <input type="submit" value="{{ text }}" class="btn {{ class }}" {% if disabled %}disabled{%endif%}>
+  </form>
 {% endmacro %}

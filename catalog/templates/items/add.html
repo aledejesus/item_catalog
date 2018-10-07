@@ -9,12 +9,12 @@
 
 
 {% block content %}
-  <h3>Create Item</h3>
+  <h3>Add Item</h3>
   <form method="POST" action="{{url_for('items.add', cid=request.args.get('cid'))}}">
     {{form.csrf_token}}
-    <div>{{form.name.label}} <br> {{form.name}}</div>
-    <div>{{form.description.label}} <br> {{form.description}}</div>
-    <div>{{form.quantity.label}} <br> {{form.quantity}}</div>
-    <div><input type="submit" value="Go"></div>
+    <div>{{form.name.label}} <br> {{form.name}}</div><br>
+    <div>{{form.description.label}} <br> {{form.description}}</div><br>
+    <div>{{form.quantity.label}} <br> {{form.quantity}}</div><br>
+    <div><input type="submit" value="Add" class="safe"></div>
   </form>
 {% endblock %}
