@@ -14,6 +14,15 @@ class Item(db.Model):
     app_user = db.relationship('AppUser')
 
     def serialize(self):
+        """
+        Converts object to dictionary
+
+        Arguments:
+            - self(Item)
+
+        Returns:
+            - dict containing Item properties
+        """
         return {
             'id': self.id,
             'name': self.name,
