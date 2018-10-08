@@ -16,21 +16,25 @@
       text="Add Item", class="safe", disabled=(not can_create_item),
       query_params=(('cid', category.id),)) }}
 
-  <ul>
-    {% for item in category.items %}
-      <li><div>
-        <a href="{{ url_for('items.details', iid=item.id) }}">
-          {{item.name}}
-        </a>
-        <span class="small-text">
-          - added by
-          {% if session.app_user_id == item.app_user_id %}
-            you
-          {% else %}
-            {{ item.app_user.name }}
-          {% endif %}
-        </span>
-      </div></li>
-    {% endfor %}
-  </ul>
+  {% if category.items %}
+    <ul>
+      {% for item in category.items %}
+        <li><div>
+          <a href="{{ url_for('items.details', iid=item.id) }}">
+            {{item.name}}
+          </a>
+          <span class="small-text">
+            - added by
+            {% if session.app_user_id == item.app_user_id %}
+              you
+            {% else %}
+              {{ item.app_user.name }}
+            {% endif %}
+          </span>
+        </div></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No items</p>
+  {% endif %}
 {% endblock %}
