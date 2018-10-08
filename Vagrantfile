@@ -15,34 +15,35 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    apt-get -qqy update
-
-    # Work around https://github.com/chef/bento/issues/661
-    # apt-get -qqy upgrade
-    DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
-
-    apt-get -qqy install make zip unzip postgresql
-
-    apt-get -qqy install python3 python3-pip
-    pip3 install --upgrade pip
-    pip3 install -r /vagrant/requirements.txt
-
-    apt-get -qqy install python python-pip
-    pip2 install --upgrade pip
-    pip2 install -r /vagrant/requirements.txt
-
+    # apt-get -qqy update
+    #
+    # # Work around https://github.com/chef/bento/issues/661
+    # # apt-get -qqy upgrade
+    # DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+    #
+    # apt-get -qqy install make zip unzip postgresql
+    #
+    # apt-get -qqy install python3 python3-pip
+    # pip3 install --upgrade pip
+    # pip3 install -r /vagrant/requirements.txt
+    #
     su postgres -c 'createuser -dRS vagrant'
-    su postgres -c 'ALTER USER "vagrant" WITH PASSWORD "vagrant"'
     su vagrant -c 'createdb catalog'
+    #
+    cd /vagrant
+    echo "localhost:5432:catalog:vagrant:password" > /home/vagrant/.pgpass
+    
+    flask db upgrade
+    psql -U vagrant catalog < dump_test.sql
 
-    vagrantTip="[35m[1mThe shared directory is located at /vagrant\\nTo access your shared files: cd /vagrant[m"
-    echo -e $vagrantTip > /etc/motd
-
-    wget http://download.redis.io/redis-stable.tar.gz
-    tar xvzf redis-stable.tar.gz
-    cd redis-stable
-    make
-    make install
+    # vagrantTip="[35m[1mThe shared directory is located at /vagrant\\nTo access your shared files: cd /vagrant[m"
+    # echo -e $vagrantTip > /etc/motd
+    #
+    # wget http://download.redis.io/redis-stable.tar.gz
+    # tar xvzf redis-stable.tar.gz
+    # cd redis-stable
+    # make
+    # make install
 
     echo "Done installing your virtual machine!"
   SHELL
