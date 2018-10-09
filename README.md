@@ -13,4 +13,4 @@ Vagrant is needed in order to easily run the web application locally. To do so, 
 	 1. `cd /vagrant`
 	 2. `flask run`
 
-After this, application should be accessible via http://localhost:5000. Sample data is inserted as part of the SHELL vagrant provision so there will be some categories and items already created from the first time the site is accessed.
+After this, application should be accessible via http://localhost:5000. Sample data is inserted in the database as part of the vagrant provisions so some categories and items will be shown on the site from the start.
