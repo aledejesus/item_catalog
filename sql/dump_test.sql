@@ -1,4 +1,5 @@
 -- Dump for testing purposes
+-- NOTE: All descriptions were extracted from wikipedia
 
 BEGIN;
 -- Create admin app user
