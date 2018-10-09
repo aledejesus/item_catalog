@@ -28,14 +28,12 @@ pyasn1-modules==0.2.2
 pycurl==7.43.0
 pygobject==3.20.0
 pyparsing==2.2.0
-python-apt==1.1.0b1+ubuntu0.16.4.2
 python-dateutil==2.7.3
 python-debian==0.1.27
 python-decouple==3.1
 python-dotenv==0.9.1
 python-editor==1.0.3
 python-systemd==231
-redis==2.10.6
 requests==2.19.1
 rsa==3.4.2
 six==1.11.0
