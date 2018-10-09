@@ -19,6 +19,9 @@ Vagrant.configure("2") do |config|
     apt-get -qqy install make zip unzip postgresql
     apt-get -qqy install python3 python3-pip
 
+    export LC_ALL="en_US.UTF-8"
+    export LC_TYPE="en_US.UTF-8"
+
     pip3 install -r /vagrant/requirements.txt
 
     cd /vagrant
