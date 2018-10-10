@@ -5,8 +5,6 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
   config.vm.box_version = "= 2.3.5"
   config.vm.synced_folder ".", "/vagrant"
-  config.vm.network "forwarded_port", guest: 8000, host: 8000, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5000, host: 5000, host_ip: "127.0.0.1"
 
   # Work around disconnected virtual network cable.
@@ -16,11 +14,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     apt-get -qqy update
-    apt-get -qqy install make zip unzip postgresql
-    apt-get -qqy install python3 python3-pip
+    apt-get -qqy install postgresql python3 python3-pip
 
-    export LC_ALL="en_US.UTF-8"
-    export LC_TYPE="en_US.UTF-8"
+    # TODO: make this variables persistent
+    # export LC_ALL="en_US.UTF-8"
+    # export LC_TYPE="en_US.UTF-8"
 
     pip3 install -r /vagrant/requirements.txt
 
