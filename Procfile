@@ -1,0 +1,1 @@
+web: gunicorn app:catalog/app.py:create_app()
