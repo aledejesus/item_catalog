@@ -1,1 +1,1 @@
-web: gunicorn app:catalog/app.py:create_app()
+web: gunicorn catalog:"app.create_app()"
